@@ -18,23 +18,14 @@ def start_test():
             start_time[0] = time.time()
             start_timer[0] = False
 
-        else:
-            text_typed = input_text_field.get('1.0', 'end-1c')
+        if e.keysym != 'Shift_L' and e.keysym != 'Shift_R':
+            input_text_field.tag_add("new_let", "end-2c")
+            all_text = input_text_field.get('1.0', 'end-1c')
+            new_let = input_text_field.get('end-2c')
 
-            if e.keysym == 'space':
-
-                last_typed_word = text_typed.split()[-1]
-
-                if last_typed_word == TARGET_TEXT_LIST[i[0]]:
-                    i[0] += 1
-
-                else:
-                    len_word = len(last_typed_word) + 2
-                    input_text_field.delete(f'end-{len_word}c', 'end-1c')
-
-            if len(text_typed) > 0 and len(text_typed) == len(TARGET_TEXT):
+            if len(all_text) == len(TARGET_TEXT):
                 print('End of the test.')
-                wpm = (i[0] + 1) / ((time.time() - start_time[0]) / 60)
+                wpm = len(TARGET_TEXT_LIST) / ((time.time() - start_time[0]) / 60)
                 input_text_field['state'] = 'disabled'
                 print(f'Your speed is {int(wpm)} words per minute!')
                 instruction_text_label.destroy()
@@ -45,6 +36,10 @@ def start_test():
                 canvas_final.create_text(400, 263, text=f"End of the test.\nYour speed is {int(wpm)} words per "
                                                         "minute!", font=('Arial', 30, 'bold'))
                 canvas_final.grid(row=0, column=0, columnspan=1)
+
+            if new_let != TARGET_TEXT[len(all_text)-1]:
+                input_text_field.delete('end-2c')
+
 
     canvas.destroy()
     load_image_but.destroy()
@@ -58,7 +53,9 @@ def start_test():
 
     input_text_field = Text(window, height=15, width=100)
     input_text_field.grid(row=2, column=0, columnspan=3)
-    input_text_field.bind('<Key>', check_word)
+    input_text_field.bind('<KeyRelease>', check_word)
+    # input_text_field.bind("<ButtonRelease-1>", check_word)
+
 
 
 # ---------------------- UI SETUP --------------------#
