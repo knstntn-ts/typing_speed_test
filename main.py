@@ -22,19 +22,18 @@ def start_test():
             text_typed = input_text_field.get('1.0', 'end-1c')
 
             if e.keysym == 'space':
+                text_typed_list = text_typed.split()
+                last_typed_word = text_typed_list[-1]
 
-                last_typed_word = text_typed.split()[-1]
 
-                if last_typed_word == TARGET_TEXT_LIST[i[0]]:
-                    i[0] += 1
-
-                else:
+                if last_typed_word != TARGET_TEXT_LIST[len(text_typed_list)-1]:
                     len_word = len(last_typed_word) + 2
                     input_text_field.delete(f'end-{len_word}c', 'end-1c')
 
+
             if len(text_typed) > 0 and len(text_typed) == len(TARGET_TEXT):
                 print('End of the test.')
-                wpm = (i[0] + 1) / ((time.time() - start_time[0]) / 60)
+                wpm = len(TARGET_TEXT_LIST) / ((time.time() - start_time[0]) / 60)
                 input_text_field['state'] = 'disabled'
                 print(f'Your speed is {int(wpm)} words per minute!')
                 instruction_text_label.destroy()
@@ -58,7 +57,7 @@ def start_test():
 
     input_text_field = Text(window, height=15, width=100)
     input_text_field.grid(row=2, column=0, columnspan=3)
-    input_text_field.bind('<Key>', check_word)
+    input_text_field.bind('<KeyRelease>', check_word)
 
 
 # ---------------------- UI SETUP --------------------#
