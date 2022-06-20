@@ -2,7 +2,7 @@ from tkinter import *
 import time
 
 BACKGROUND_COLOR = "#B1DDC6"
-TARGET_TEXT = "Hello, my name is Kosta."
+TARGET_TEXT = "Esther is such an amazing person."
 TARGET_TEXT_LIST = TARGET_TEXT.split()
 start_timer = [True]
 
