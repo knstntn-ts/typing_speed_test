@@ -24,6 +24,7 @@ def start_test():
             start_time[0] = time.time()
             start_timer[0] = False
 
+
         # Checking algorithm
         if e.keysym != 'Shift_L' and e.keysym != 'Shift_R':
             # For keys other than "Shift" get the last typed letter from the text field
@@ -33,6 +34,22 @@ def start_test():
 
             # Check if the target text is typed all, calculate the speed and display it.
             if len(all_text) == len(TARGET_TEXT):
+
+        else:
+            text_typed = input_text_field.get('1.0', 'end-1c')
+
+            if e.keysym == 'space':
+                text_typed_list = text_typed.split()
+                last_typed_word = text_typed_list[-1]
+
+
+                if last_typed_word != TARGET_TEXT_LIST[len(text_typed_list)-1]:
+                    len_word = len(last_typed_word) + 2
+                    input_text_field.delete(f'end-{len_word}c', 'end-1c')
+
+
+            if len(text_typed) > 0 and len(text_typed) == len(TARGET_TEXT):
+
                 print('End of the test.')
                 wpm = len(TARGET_TEXT_LIST) / ((time.time() - start_time[0]) / 60)
                 input_text_field['state'] = 'disabled'
